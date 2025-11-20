@@ -1,52 +1,42 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ButtonListScreen(),
-    ));
+void main() => runApp(MaterialApp(
+  home: Scaffold(
+    appBar: AppBar(
+      title: const Text("Custom buttons"),
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Button(),
+          SizedBox(height: 15,),
+          Button(),
+          SizedBox(height: 15,),
+        ],
+      ),
+    ),
+  ),
+));
 
-class ButtonListScreen extends StatelessWidget {
-  const ButtonListScreen({super.key});
+class Button extends StatefulWidget {
+  const Button({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Custom buttons"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            SelectableButton(),
-            SizedBox(height: 20),
-            SelectableButton(),
-            SizedBox(height: 20),
-            SelectableButton(),
-          ],
-        ),
-      ),
-    );
-  }
+  State<Button> createState() => _ButtonState();
 }
 
-class SelectableButton extends StatefulWidget {
-  const SelectableButton({super.key});
-
-  @override
-  State<SelectableButton> createState() => _SelectableButtonState();
-}
-
-class _SelectableButtonState extends State<SelectableButton> {
+class _ButtonState extends State<Button> {
   bool isSelected = false;
-
-  // getters for button properties
-  String get buttonText => isSelected ? "Selected" : "Not Selected";
-
+  String get texts => isSelected ? "Selected" : "Not Selected";
   Color get textColor => isSelected ? Colors.white : Colors.black;
+  Color get bgColor => isSelected ? Colors.blue.shade500 : Colors.blue.shade50;
 
-  Color get backgroundColor =>
-      isSelected ? Colors.blue[500]! : Colors.blue[50]!;
+  void selection(){
+    setState(() {
+      isSelected = !isSelected;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,24 +44,16 @@ class _SelectableButtonState extends State<SelectableButton> {
       width: 400,
       height: 100,
       child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            isSelected = !isSelected; // Toggle the state
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-        ),
-        child: Center(
-          child: Text(
-            buttonText,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 24,
+          onPressed: selection,
+          style: ElevatedButton.styleFrom(backgroundColor: bgColor),
+          child: Center(
+            child: Text(
+              texts,
+              style: TextStyle(
+                color: textColor,
+              ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
