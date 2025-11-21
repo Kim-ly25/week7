@@ -27,8 +27,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   // Show previous image (circular)
   void _showPrevious() {
     setState(() {
-      _currentIndex = (_currentIndex - 1) % images.length;
-      if (_currentIndex < 0) _currentIndex += images.length;
+      _currentIndex = (_currentIndex - 1 + images.length) % images.length;
     });
   }
 
